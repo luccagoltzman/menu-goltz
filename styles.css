@@ -1,174 +1,140 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
+/* Variáveis CSS */
 :root {
-    --color-gold: #D4AF37;
-    --color-gold-light: rgba(212, 175, 55, 0.1);
-    --color-dark: #1A1A1A;
-    --color-darker: #0F0F0F;
-    --gradient-gold: linear-gradient(135deg, var(--color-gold) 0%, #BF953F 100%);
+    /* Cores */
+    --primary-color: #D4AF37;
+    --secondary-color: #BF953F;
+    --background-color: #1A1A1A;
+    --text-color: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-background: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
+    /* Tipografia */
+    --title-font: 'Cinzel', serif;
+    --body-font: 'Inter', sans-serif;
+    
+    /* Efeitos */
+    --transition-speed: 0.3s;
+    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --glow-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Animações */
+@keyframes particle {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) translate(var(--particle-x, 50px), var(--particle-y, -100px)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Reset e Estilos Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: var(--color-darker);
-    background-image: 
-        linear-gradient(to bottom, rgba(15, 15, 15, 0.95), rgba(15, 15, 15, 0.98)),
-        repeating-linear-gradient(45deg, 
-            rgba(212, 175, 55, 0.05) 0px,
-            rgba(212, 175, 55, 0.05) 2px,
-            transparent 2px,
-            transparent 8px
-        );
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--body-font);
+    line-height: 1.6;
     overflow-x: hidden;
 }
 
+/* Container Principal */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
 }
 
+/* Cabeçalho */
 header {
     text-align: center;
-    padding: 6rem 2rem;
-    position: relative;
-    overflow: hidden;
     margin-bottom: 4rem;
-    background: rgba(15, 15, 15, 0.7);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
-
-header::before,
-header::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 1px;
-    background: var(--gradient-gold);
-    opacity: 0.3;
-}
-
-header::before { top: 0; }
-header::after { bottom: 0; }
 
 header h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 4rem;
-    margin: 0;
-    background: var(--gradient-gold);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 15px rgba(212, 175, 55, 0.2);
-    letter-spacing: 4px;
-    position: relative;
-    display: inline-block;
+    font-family: var(--title-font);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px var(--glow-color);
 }
 
-header h1::before,
-header h1::after {
-    content: '❦';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    color: var(--color-gold);
-    opacity: 0.5;
-}
-
-header h1::before { left: -4rem; }
-header h1::after { right: -4rem; }
-
-.quote {
-    font-family: 'Cinzel', serif;
+header .quote {
+    font-family: var(--title-font);
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: 2rem;
+    color: var(--text-muted);
     font-style: italic;
 }
 
-.quote::before,
-.quote::after {
-    content: '"';
-    color: var(--color-gold);
-    opacity: 0.5;
-}
-
+/* Seções do Menu */
 .menu-section {
-    margin-bottom: 4rem;
-    position: relative;
-    padding: 3rem;
-    background: rgba(26, 26, 26, 0.4);
-    border-radius: 20px;
-    border: 1px solid rgba(212, 175, 55, 0.1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.menu-section:hover {
-    transform: translateY(-5px);
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all var(--transition-speed) var(--transition-timing);
 }
 
 .menu-section h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    color: var(--color-gold);
-    text-align: center;
-    margin-bottom: 3rem;
-    position: relative;
-    padding-bottom: 1rem;
-}
-
-.menu-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: -1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 1px;
-    background: var(--gradient-gold);
-    opacity: 0.3;
-}
-
-.bebida-item {
+    font-family: var(--title-font);
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
+    gap: 1rem;
+}
+
+.menu-section h2 i {
+    font-size: 1.5rem;
+}
+
+/* Itens de Bebida */
+.bebida-item {
+    background: var(--glass-background);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-    transition: all 0.3s ease;
+    margin-bottom: 1rem;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    transition: all var(--transition-speed) var(--transition-timing);
 }
 
 .bebida-item::before {
     content: '';
     position: absolute;
-    left: 0;
     top: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--gradient-gold);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        var(--glow-color),
+        transparent 25%
+    );
     opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.bebida-item:last-child {
-    border-bottom: none;
+    transition: opacity var(--transition-speed) var(--transition-timing);
+    pointer-events: none;
 }
 
 .bebida-item:hover {
-    background: rgba(212, 175, 55, 0.05);
-    transform: translateX(10px);
-    padding-left: 2rem;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 .bebida-item:hover::before {
@@ -176,94 +142,60 @@ header h1::after { right: -4rem; }
 }
 
 .bebida-info {
-    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .bebida-nome {
-    font-family: 'Cinzel', serif;
-    font-size: 1.3rem;
-    color: var(--color-gold);
-    margin: 0 0 0.5rem 0;
-    transition: color 0.3s ease;
-}
-
-.bebida-item:hover .bebida-nome {
-    color: #E5C100;
+    font-family: var(--title-font);
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
 }
 
 .bebida-origem {
+    color: var(--text-muted);
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-style: italic;
-    transition: all 0.3s ease;
-}
-
-.bebida-item:hover .bebida-origem {
-    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .bebida-icon {
-    margin-left: 1rem;
-    color: var(--color-gold);
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    font-size: 1.2rem;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--primary-color);
+    transition: transform var(--transition-speed) var(--transition-timing);
 }
 
 .bebida-item:hover .bebida-icon {
-    opacity: 1;
     transform: rotate(45deg);
-    background: var(--color-gold);
-    color: var(--color-darker);
-    border-color: var(--color-gold);
 }
 
+/* Modal */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    padding: 2rem;
     z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
-}
-
-.modal.active {
-    opacity: 1;
-    visibility: visible;
 }
 
 .modal-content {
-    background: var(--color-dark);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 20px;
-    padding: 3rem;
+    background: var(--background-color);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 2rem;
     max-width: 800px;
-    width: 90%;
+    width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-}
-
-.modal.active .modal-content {
-    transform: translateY(0);
 }
 
 .modal-header {
@@ -271,123 +203,75 @@ header h1::after { right: -4rem; }
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .modal-header h3 {
-    font-family: 'Cinzel', serif;
+    font-family: var(--title-font);
     font-size: 2rem;
-    color: var(--color-gold);
-    margin: 0;
+    color: var(--primary-color);
 }
 
 .close-button {
     font-size: 2rem;
-    color: var(--color-gold);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: color var(--transition-speed) var(--transition-timing);
 }
 
 .close-button:hover {
-    transform: rotate(90deg);
-    background: var(--color-gold);
-    color: var(--color-darker);
-    border-color: var(--color-gold);
-}
-
-.modal-body {
-    display: grid;
-    gap: 2rem;
+    color: var(--text-color);
 }
 
 .modal-section {
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.1);
-    transition: all 0.3s ease;
-}
-
-.modal-section:hover {
-    background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(212, 175, 55, 0.2);
-    transform: translateX(5px);
+    margin-bottom: 2rem;
 }
 
 .modal-section h4 {
-    font-family: 'Cinzel', serif;
-    color: var(--color-gold);
-    margin: 0 0 1rem 0;
+    font-family: var(--title-font);
     font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-.modal-section h4::before {
-    content: '•';
-    color: var(--color-gold);
-    font-size: 1.5rem;
 }
 
 .modal-section p {
-    margin: 0;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-muted);
+    line-height: 1.8;
 }
 
-.modal-section p:not(:last-child) {
-    margin-bottom: 1rem;
+/* Partículas */
+.particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
 }
 
-.temperatura {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    font-style: italic;
-    color: var(--color-gold);
-}
-
+/* Responsividade */
 @media (max-width: 768px) {
-    header {
-        padding: 4rem 1rem;
+    .container {
+        padding: 1rem;
     }
 
     header h1 {
-        font-size: 2.5rem;
-    }
-
-    header h1::before,
-    header h1::after {
-        font-size: 1.5rem;
-    }
-
-    header h1::before { left: -3rem; }
-    header h1::after { right: -3rem; }
-
-    .menu-section {
-        padding: 2rem 1rem;
-    }
-
-    .menu-section h2 {
         font-size: 2rem;
     }
 
-    .bebida-item {
-        padding: 1rem;
+    header .quote {
+        font-size: 1rem;
+    }
+
+    .menu-section h2 {
+        font-size: 1.5rem;
     }
 
     .bebida-nome {
         font-size: 1.1rem;
+    }
+
+    .modal {
+        padding: 1rem;
     }
 
     .modal-content {
@@ -397,26 +281,22 @@ header h1::after { right: -4rem; }
     .modal-header h3 {
         font-size: 1.5rem;
     }
-
-    .modal-section {
-        padding: 1.5rem;
-    }
 }
 
-/* Scrollbar personalizada */
+/* Scrollbar Personalizada */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--color-darker);
+    background: var(--background-color);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--color-gold);
+    background: var(--primary-color);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #bf953f;
+    background: var(--secondary-color);
 } 

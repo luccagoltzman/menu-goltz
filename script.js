@@ -487,272 +487,146 @@ function createGarrafaCard(garrafa) {
     return card;
 }
 
-// Inicialização do menu
+// Classe principal do Menu
+class Menu {
+    constructor() {
+        this.container = document.getElementById('menu-container');
+        this.animationManager = new AnimationManager();
+        this.modalAtual = null;
+    }
+
+    // Inicializa o menu
+    init() {
+        this.renderizarMenu();
+        this.setupEventListeners();
+        this.animationManager.init();
+    }
+
+    // Renderiza o menu completo
+    renderizarMenu() {
+        COLECAO.obterCategorias().forEach(categoria => {
+            const secao = this.criarSecao(categoria);
+            const bebidas = COLECAO.obterBebidasPorCategoria(categoria);
+            
+            bebidas.forEach(bebida => {
+                const itemBebida = this.criarItemBebida(bebida);
+                secao.appendChild(itemBebida);
+            });
+            
+            this.container.appendChild(secao);
+        });
+    }
+
+    // Cria uma seção do menu
+    criarSecao(categoria) {
+        const template = MenuUtils.DOM.createFromTemplate('section-template');
+        const section = template.querySelector('.menu-section');
+        const icon = section.querySelector('.section-icon');
+        const title = section.querySelector('.section-title');
+
+        icon.className = MenuUtils.Icons.getIconForCategory(categoria);
+        title.textContent = categoria;
+
+        return section;
+    }
+
+    // Cria um item de bebida
+    criarItemBebida(bebida) {
+        const template = MenuUtils.DOM.createFromTemplate('bebida-template');
+        return MenuUtils.DOM.fillContent(template, {
+            '.bebida-nome': bebida.nome,
+            '.origem-texto': bebida.origem
+        });
+    }
+
+    // Configura os event listeners
+    setupEventListeners() {
+        this.container.addEventListener('click', (e) => {
+            const bebidaItem = e.target.closest('.bebida-item');
+            if (bebidaItem) {
+                const nome = bebidaItem.querySelector('.bebida-nome').textContent;
+                const categoria = bebidaItem.closest('.menu-section')
+                    .querySelector('.section-title').textContent;
+                
+                this.abrirModal(categoria, nome);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modalAtual) {
+                this.fecharModal();
+            }
+        });
+    }
+
+    // Abre o modal com detalhes da bebida
+    async abrirModal(categoria, nome) {
+        const bebida = COLECAO.obterBebida(categoria, nome);
+        if (!bebida) return;
+
+        // Cria o modal
+        const template = MenuUtils.DOM.createFromTemplate('modal-template');
+        const modal = template.querySelector('.modal');
+
+        // Preenche o conteúdo
+        MenuUtils.DOM.fillContent(modal, {
+            '.modal-header h3': bebida.nome,
+            '.historia-texto': bebida.historia,
+            '.caracteristicas-texto': bebida.caracteristicas,
+            '.curiosidades-texto': bebida.curiosidades,
+            '.apreciacao-texto': bebida.apreciacao,
+            '.temperatura-texto': bebida.temperatura
+        });
+
+        // Configura seções condicionais
+        const envelhecimentoSection = modal.querySelector('.envelhecimento-section');
+        const botanicosSection = modal.querySelector('.botanicos-section');
+
+        if (bebida.envelhecimento) {
+            MenuUtils.DOM.fillContent(envelhecimentoSection, {
+                '.envelhecimento-texto': bebida.envelhecimento
+            });
+        } else {
+            envelhecimentoSection.style.display = 'none';
+        }
+
+        if (bebida.botanicos) {
+            MenuUtils.DOM.fillContent(botanicosSection, {
+                '.botanicos-texto': bebida.botanicos
+            });
+        } else {
+            botanicosSection.style.display = 'none';
+        }
+
+        // Adiciona event listeners
+        modal.querySelector('.close-button').addEventListener('click', () => {
+            this.fecharModal();
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.fecharModal();
+            }
+        });
+
+        // Adiciona o modal ao DOM e anima
+        document.body.appendChild(modal);
+        this.modalAtual = modal;
+        this.animationManager.animateModalOpen(modal);
+    }
+
+    // Fecha o modal atual
+    async fecharModal() {
+        if (!this.modalAtual) return;
+
+        await this.animationManager.animateModalClose(this.modalAtual);
+        this.modalAtual.remove();
+        this.modalAtual = null;
+    }
+}
+
+// Inicializa o menu quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.createElement('div');
-    container.className = 'container';
-
-    const header = document.createElement('header');
-    const title = document.createElement('h1');
-    title.textContent = 'A Arte de Beber Bem';
-    header.appendChild(title);
-
-    const quote = document.createElement('p');
-    quote.className = 'quote';
-    quote.textContent = 'Aprecie com moderação, celebre com elegância.';
-    header.appendChild(quote);
-
-    container.appendChild(header);
-
-    // Função para criar ícones específicos para cada seção
-    const getSectionIcon = (categoryName) => {
-        const icons = {
-            'Whisky': 'fa-solid fa-whiskey-glass',
-            'Gin': 'fa-solid fa-martini-glass-citrus',
-            'Vodka': 'fa-solid fa-martini-glass',
-            'Rum': 'fa-solid fa-glass-water',
-            'Tequila': 'fa-solid fa-bottle-droplet',
-            'Licores': 'fa-solid fa-wine-bottle',
-            'Cognac': 'fa-solid fa-wine-glass',
-            'default': 'fa-solid fa-glass-martini-alt'
-        };
-        return icons[categoryName] || icons.default;
-    };
-
-    Object.entries(colecao).forEach(([categoryName, bebidas]) => {
-        const section = document.createElement('section');
-        section.className = 'menu-section';
-
-        const title = document.createElement('h2');
-        const icon = document.createElement('i');
-        icon.className = getSectionIcon(categoryName);
-        icon.style.marginRight = '1rem';
-        icon.style.fontSize = '2rem';
-        title.appendChild(icon);
-        title.appendChild(document.createTextNode(categoryName));
-        section.appendChild(title);
-
-        bebidas.forEach(bebida => {
-            const item = document.createElement('div');
-            item.className = 'bebida-item';
-
-            const info = document.createElement('div');
-            info.className = 'bebida-info';
-
-            const nome = document.createElement('h3');
-            nome.className = 'bebida-nome';
-            nome.textContent = bebida.nome;
-            info.appendChild(nome);
-
-            const origem = document.createElement('p');
-            origem.className = 'bebida-origem';
-            origem.innerHTML = `<i class="fas fa-globe-americas" style="margin-right: 0.5rem; color: var(--color-gold);"></i>${bebida.origem}`;
-            info.appendChild(origem);
-
-            const icon = document.createElement('i');
-            icon.className = 'bebida-icon fas fa-plus';
-
-            item.appendChild(info);
-            item.appendChild(icon);
-
-            // Modal com detalhes
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>${bebida.nome}</h3>
-                        <span class="close-button">&times;</span>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-section">
-                            <h4><i class="fas fa-history"></i> História</h4>
-                            <p>${bebida.historia}</p>
-                        </div>
-                        <div class="modal-section">
-                            <h4><i class="fas fa-info-circle"></i> Características</h4>
-                            <p>${bebida.caracteristicas}</p>
-                        </div>
-                        <div class="modal-section">
-                            <h4><i class="fas fa-star"></i> Curiosidades</h4>
-                            <p>${bebida.curiosidades}</p>
-                        </div>
-                        ${bebida.envelhecimento ? `
-                            <div class="modal-section">
-                                <h4><i class="fas fa-hourglass-half"></i> Envelhecimento</h4>
-                                <p>${bebida.envelhecimento}</p>
-                            </div>
-                        ` : ''}
-                        ${bebida.botanicos ? `
-                            <div class="modal-section">
-                                <h4><i class="fas fa-leaf"></i> Botânicos</h4>
-                                <p>${bebida.botanicos}</p>
-                            </div>
-                        ` : ''}
-                        <div class="modal-section">
-                            <h4><i class="fas fa-glass-cheers"></i> Como Apreciar</h4>
-                            <p>${bebida.apreciacao}</p>
-                            <p class="temperatura"><i class="fas fa-thermometer-half"></i> ${bebida.temperatura}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Gerenciamento do modal
-            let isModalOpen = false;
-
-            const openModal = () => {
-                if (!isModalOpen) {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    isModalOpen = true;
-
-                    // Anima as seções do modal
-                    const sections = modal.querySelectorAll('.modal-section');
-                    sections.forEach((section, index) => {
-                        section.style.opacity = '0';
-                        section.style.transform = 'translateX(-20px)';
-                        setTimeout(() => {
-                            section.style.transition = 'all 0.5s ease';
-                            section.style.opacity = '1';
-                            section.style.transform = 'translateX(0)';
-                        }, index * 100);
-                    });
-                }
-            };
-
-            const closeModal = (e) => {
-                if (e) e.stopPropagation();
-                if (isModalOpen) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    isModalOpen = false;
-                }
-            };
-
-            item.addEventListener('click', openModal);
-            modal.querySelector('.close-button').addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
-
-            // Fecha o modal com a tecla ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && isModalOpen) closeModal();
-            });
-
-            document.body.appendChild(modal);
-            section.appendChild(item);
-        });
-
-        container.appendChild(section);
-    });
-
-    document.body.appendChild(container);
-
-    // Animação de entrada suave para os itens
-    const items = document.querySelectorAll('.bebida-item');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateX(0)';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    items.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        item.style.transitionDelay = `${index * 50}ms`;
-        observer.observe(item);
-    });
-
-    // Animação suave para as seções
-    const sections = document.querySelectorAll('.menu-section');
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                sectionObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    sections.forEach((section) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        sectionObserver.observe(section);
-    });
-
-    // Adiciona efeito de parallax suave ao fundo
-    document.addEventListener('mousemove', (e) => {
-        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-        document.body.style.backgroundPosition = `${moveX}px ${moveY}px`;
-    });
-
-    // Adicionar estilos CSS dinâmicos
-    const style = document.createElement('style');
-    style.textContent = `
-        .drink-card {
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease;
-        }
-
-        .shine-effect {
-            position: absolute;
-            top: -100%;
-            left: -100%;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .destaque-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: linear-gradient(45deg, var(--color-gold), var(--color-wine));
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: white;
-            opacity: 0.9;
-        }
-
-        .drink-card.destaque {
-            border-color: var(--color-gold);
-            box-shadow: 0 0 15px rgba(203, 161, 53, 0.1);
-        }
-
-        @keyframes cardEntrance {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .drink-card {
-            animation: cardEntrance 0.5s ease-out forwards;
-            opacity: 0;
-        }
-    `;
-    document.head.appendChild(style);
+    const menu = new Menu();
+    menu.init();
 }); 

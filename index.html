@@ -6,15 +6,96 @@
     <title>A Arte de Beber Bem - Coleção Neves & Goltzman</title>
     <meta name="description" content="Uma coleção particular de bebidas finas, apresentando histórias e características únicas de cada garrafa.">
     <meta name="theme-color" content="#1A1A1A">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    
     <!-- Preload das fontes para melhor performance -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
+    <!-- Container Principal -->
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header>
+            <h1>A Arte de Beber Bem</h1>
+            <p class="quote">Aprecie com moderação, celebre com elegância.</p>
+        </header>
+
+        <!-- Template do Menu (será preenchido via JavaScript) -->
+        <div id="menu-container">
+            <!-- Exemplo de estrutura de seção (será gerada dinamicamente) -->
+            <template id="section-template">
+                <section class="menu-section">
+                    <h2><i class="section-icon"></i><span class="section-title"></span></h2>
+                </section>
+            </template>
+
+            <!-- Template de item de bebida -->
+            <template id="bebida-template">
+                <div class="bebida-item">
+                    <div class="bebida-info">
+                        <h3 class="bebida-nome"></h3>
+                        <p class="bebida-origem">
+                            <i class="fas fa-globe-americas"></i>
+                            <span class="origem-texto"></span>
+                        </p>
+                    </div>
+                    <i class="bebida-icon fas fa-plus"></i>
+                </div>
+            </template>
+
+            <!-- Template do Modal -->
+            <template id="modal-template">
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3></h3>
+                            <span class="close-button">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h4><i class="fas fa-history"></i> História</h4>
+                                <p class="historia-texto"></p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-info-circle"></i> Características</h4>
+                                <p class="caracteristicas-texto"></p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-star"></i> Curiosidades</h4>
+                                <p class="curiosidades-texto"></p>
+                            </div>
+                            <div class="modal-section envelhecimento-section">
+                                <h4><i class="fas fa-hourglass-half"></i> Envelhecimento</h4>
+                                <p class="envelhecimento-texto"></p>
+                            </div>
+                            <div class="modal-section botanicos-section">
+                                <h4><i class="fas fa-leaf"></i> Botânicos</h4>
+                                <p class="botanicos-texto"></p>
+                            </div>
+                            <div class="modal-section">
+                                <h4><i class="fas fa-glass-cheers"></i> Como Apreciar</h4>
+                                <p class="apreciacao-texto"></p>
+                                <p class="temperatura">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span class="temperatura-texto"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="utils.js"></script>
     <script src="colecao.js"></script>
+    <script src="animacoes.js"></script>
     <script src="script.js"></script>
 </body>
 </html> 
