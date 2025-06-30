@@ -511,6 +511,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    white-space: nowrap;
 }
 
 .filter-btn i {
@@ -529,6 +530,93 @@ body {
 
 .filter-btn:hover i, .filter-btn.active i {
     color: var(--background-color);
+}
+
+/* Responsividade dos Filtros */
+@media (max-width: 768px) {
+    .filter-bar {
+        padding: 0.8rem 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .filter-bar::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+
+    .filter-content {
+        padding: 0 1rem;
+        gap: 0.8rem;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        width: auto;
+        padding-bottom: 0.5rem; /* Espaço para o scroll */
+    }
+
+    .filter-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .filter-btn i {
+        font-size: 0.9rem;
+    }
+
+    /* Indicador de scroll */
+    .filter-bar::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+            to right,
+            transparent 0%,
+            var(--primary-color) 50%,
+            transparent 100%
+        );
+        opacity: 0.3;
+        animation: scrollIndicator 2s infinite;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-bar {
+        padding: 0.6rem 0;
+    }
+
+    .filter-content {
+        padding: 0 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .filter-btn i {
+        font-size: 0.85rem;
+    }
+}
+
+/* Animação do indicador de scroll */
+@keyframes scrollIndicator {
+    0% {
+        opacity: 0.3;
+        transform: translateX(-100%);
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0.3;
+        transform: translateX(100%);
+    }
 }
 
 /* Responsividade */
