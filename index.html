@@ -37,72 +37,101 @@
         <div class="header-pattern"></div>
     </header>
 
-    <!-- Container Principal -->
-    <div class="container">
-        <!-- Template do Menu (será preenchido via JavaScript) -->
-        <div id="menu-container">
-            <!-- Exemplo de estrutura de seção (será gerada dinamicamente) -->
-            <template id="section-template">
-                <section class="menu-section">
-                    <h2><i class="section-icon"></i><span class="section-title"></span></h2>
-                </section>
-            </template>
+    <!-- Barra de Filtros -->
+    <nav class="filter-bar">
+        <div class="filter-content">
+            <button class="filter-btn active" data-category="todos">
+                <i class="fas fa-glass-cheers"></i>
+                <span>Todos</span>
+            </button>
+            <button class="filter-btn" data-category="Whisky">
+                <i class="fas fa-whiskey-glass"></i>
+                <span>Whiskys</span>
+            </button>
+            <button class="filter-btn" data-category="Cachaça">
+                <i class="fas fa-wine-bottle"></i>
+                <span>Cachaças</span>
+            </button>
+            <button class="filter-btn" data-category="Tequila">
+                <i class="fas fa-bottle-droplet"></i>
+                <span>Tequilas</span>
+            </button>
+            <button class="filter-btn" data-category="Vinho">
+                <i class="fas fa-wine-glass-alt"></i>
+                <span>Vinhos</span>
+            </button>
+            <button class="filter-btn" data-category="Licores">
+                <i class="fas fa-glass-martini"></i>
+                <span>Licores</span>
+            </button>
+        </div>
+    </nav>
 
-            <!-- Template de item de bebida -->
-            <template id="bebida-template">
-                <div class="bebida-item">
-                    <div class="bebida-info">
-                        <h3 class="bebida-nome"></h3>
-                        <p class="bebida-origem">
-                            <i class="fas fa-globe-americas"></i>
-                            <span class="origem-texto"></span>
+    <!-- Templates -->
+    <template id="section-template">
+        <section class="menu-section">
+            <h2><i class="section-icon"></i><span class="section-title"></span></h2>
+        </section>
+    </template>
+
+    <template id="bebida-template">
+        <div class="bebida-item">
+            <div class="bebida-info">
+                <h3 class="bebida-nome"></h3>
+                <p class="bebida-origem">
+                    <i class="fas fa-globe-americas"></i>
+                    <span class="origem-texto"></span>
+                </p>
+            </div>
+            <i class="bebida-icon fas fa-plus"></i>
+        </div>
+    </template>
+
+    <template id="modal-template">
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3></h3>
+                    <span class="close-button">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h4><i class="fas fa-history"></i> História</h4>
+                        <p class="historia-texto"></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4><i class="fas fa-info-circle"></i> Características</h4>
+                        <p class="caracteristicas-texto"></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4><i class="fas fa-star"></i> Curiosidades</h4>
+                        <p class="curiosidades-texto"></p>
+                    </div>
+                    <div class="modal-section envelhecimento-section">
+                        <h4><i class="fas fa-hourglass-half"></i> Envelhecimento</h4>
+                        <p class="envelhecimento-texto"></p>
+                    </div>
+                    <div class="modal-section botanicos-section">
+                        <h4><i class="fas fa-leaf"></i> Botânicos</h4>
+                        <p class="botanicos-texto"></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4><i class="fas fa-glass-cheers"></i> Como Apreciar</h4>
+                        <p class="apreciacao-texto"></p>
+                        <p class="temperatura">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span class="temperatura-texto"></span>
                         </p>
                     </div>
-                    <i class="bebida-icon fas fa-plus"></i>
                 </div>
-            </template>
+            </div>
+        </div>
+    </template>
 
-            <!-- Template do Modal -->
-            <template id="modal-template">
-                <div class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3></h3>
-                            <span class="close-button">&times;</span>
-                        </div>
-                        <div class="modal-body">
-                            <div class="modal-section">
-                                <h4><i class="fas fa-history"></i> História</h4>
-                                <p class="historia-texto"></p>
-                            </div>
-                            <div class="modal-section">
-                                <h4><i class="fas fa-info-circle"></i> Características</h4>
-                                <p class="caracteristicas-texto"></p>
-                            </div>
-                            <div class="modal-section">
-                                <h4><i class="fas fa-star"></i> Curiosidades</h4>
-                                <p class="curiosidades-texto"></p>
-                            </div>
-                            <div class="modal-section envelhecimento-section">
-                                <h4><i class="fas fa-hourglass-half"></i> Envelhecimento</h4>
-                                <p class="envelhecimento-texto"></p>
-                            </div>
-                            <div class="modal-section botanicos-section">
-                                <h4><i class="fas fa-leaf"></i> Botânicos</h4>
-                                <p class="botanicos-texto"></p>
-                            </div>
-                            <div class="modal-section">
-                                <h4><i class="fas fa-glass-cheers"></i> Como Apreciar</h4>
-                                <p class="apreciacao-texto"></p>
-                                <p class="temperatura">
-                                    <i class="fas fa-thermometer-half"></i>
-                                    <span class="temperatura-texto"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
+    <!-- Container Principal -->
+    <div class="container">
+        <div id="menu-container">
+            <!-- O conteúdo será preenchido dinamicamente via JavaScript -->
         </div>
     </div>
 
@@ -113,16 +142,6 @@
             <div class="footer-section">
                 <h4>Sobre a Coleção</h4>
                 <p>Uma seleção cuidadosa de bebidas finas, reunindo histórias e sabores únicos de diferentes partes do mundo.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Categorias</h4>
-                <ul class="footer-categories">
-                    <li><i class="fas fa-whiskey-glass"></i> Whiskys</li>
-                    <li><i class="fas fa-wine-bottle"></i> Cachaças</li>
-                    <li><i class="fas fa-bottle-droplet"></i> Tequilas</li>
-                    <li><i class="fas fa-wine-glass-alt"></i> Vinhos</li>
-                    <li><i class="fas fa-glass-martini"></i> Licores</li>
-                </ul>
             </div>
             <div class="footer-section">
                 <h4>Citação</h4>

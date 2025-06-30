@@ -493,28 +493,67 @@ class Menu {
         this.container = document.getElementById('menu-container');
         this.animationManager = new AnimationManager();
         this.modalAtual = null;
+        this.categoriaAtual = 'todos';
     }
 
     // Inicializa o menu
     init() {
+        this.setupFiltros();
         this.renderizarMenu();
         this.setupEventListeners();
         this.animationManager.init();
     }
 
+    // Configura os filtros
+    setupFiltros() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove a classe active de todos os botões
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Adiciona a classe active ao botão clicado
+                button.classList.add('active');
+                
+                // Atualiza a categoria atual e re-renderiza o menu
+                this.categoriaAtual = button.dataset.category;
+                this.renderizarMenu();
+            });
+        });
+    }
+
     // Renderiza o menu completo
     renderizarMenu() {
-        COLECAO.obterCategorias().forEach(categoria => {
-            const secao = this.criarSecao(categoria);
-            const bebidas = COLECAO.obterBebidasPorCategoria(categoria);
-            
-            bebidas.forEach(bebida => {
-                const itemBebida = this.criarItemBebida(bebida);
-                secao.appendChild(itemBebida);
+        // Limpa o container
+        this.container.innerHTML = '';
+
+        if (this.categoriaAtual === 'todos') {
+            // Renderiza todas as categorias
+            COLECAO.obterCategorias().forEach(categoria => {
+                const secao = this.criarSecao(categoria);
+                const bebidas = COLECAO.obterBebidasPorCategoria(categoria);
+                
+                bebidas.forEach(bebida => {
+                    const itemBebida = this.criarItemBebida(bebida);
+                    secao.appendChild(itemBebida);
+                });
+                
+                this.container.appendChild(secao);
             });
-            
-            this.container.appendChild(secao);
-        });
+        } else {
+            // Renderiza apenas a categoria selecionada
+            const bebidas = COLECAO.obterBebidasPorCategoria(this.categoriaAtual);
+            if (bebidas && bebidas.length > 0) {
+                const secao = this.criarSecao(this.categoriaAtual);
+                bebidas.forEach(bebida => {
+                    const itemBebida = this.criarItemBebida(bebida);
+                    secao.appendChild(itemBebida);
+                });
+                this.container.appendChild(secao);
+            }
+        }
+
+        // Reinicializa as animações
+        this.animationManager.init();
     }
 
     // Cria uma seção do menu
