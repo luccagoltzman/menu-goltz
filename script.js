@@ -1,4 +1,4 @@
-// Dados do menu (exemplo)
+// Dados do menu com informações mais detalhadas
 const menuData = {
     cachacas: [
         {
@@ -6,28 +6,46 @@ const menuData = {
             teor: "40% ABV",
             origem: "Brasil - Minas Gerais",
             notas: "Aromas de baunilha e carvalho, paladar suave com notas de madeira",
-            destaque: true
+            envelhecimento: "6 anos em barris de carvalho europeu",
+            temperatura: "16-18°C",
+            harmonizacao: "Queijos curados, doces de frutas",
+            premios: ["Medalha de Ouro - Concurso Mundial de Bruxelas 2022"],
+            destaque: true,
+            preco: "R$ 280,00"
         },
         {
             nome: "Cachaça Weber Haus Premium Black",
             teor: "38% ABV",
             origem: "Brasil - Rio Grande do Sul",
-            notas: "Envelhecida em carvalho, notas de especiarias e caramelo"
+            notas: "Envelhecida em carvalho, notas de especiarias e caramelo",
+            envelhecimento: "5 anos em barris de carvalho americano",
+            temperatura: "16-18°C",
+            harmonizacao: "Chocolates amargos, sobremesas",
+            preco: "R$ 220,00"
         }
     ],
     whiskies: [
         {
             nome: "Macallan 12 Years Double Cask",
             teor: "40% ABV",
-            origem: "Escócia",
+            origem: "Escócia - Speyside",
             notas: "Notas de mel, cítricos e carvalho",
-            destaque: true
+            envelhecimento: "12 anos em barris de xerez americano e europeu",
+            temperatura: "18-20°C",
+            harmonizacao: "Carnes vermelhas, chocolates",
+            premios: ["Best Single Malt - World Whiskies Awards 2021"],
+            destaque: true,
+            preco: "R$ 750,00"
         },
         {
             nome: "Johnnie Walker Blue Label",
             teor: "40% ABV",
             origem: "Escócia",
-            notas: "Complexo, com notas de chocolate amargo e defumados"
+            notas: "Complexo, com notas de chocolate amargo e defumados",
+            envelhecimento: "Blend de whiskies raros com mais de 25 anos",
+            temperatura: "18-20°C",
+            harmonizacao: "Charutos, queijos azuis",
+            preco: "R$ 1.200,00"
         }
     ],
     vinhos: [
@@ -36,13 +54,24 @@ const menuData = {
             teor: "15% ABV",
             origem: "Itália - Vêneto",
             notas: "Encorpado, com notas de frutas secas e especiarias",
-            destaque: true
+            envelhecimento: "36 meses em barris de carvalho francês",
+            temperatura: "16-18°C",
+            harmonizacao: "Carnes de caça, queijos maturados",
+            premios: ["96 pontos Robert Parker"],
+            destaque: true,
+            preco: "R$ 890,00",
+            uvas: "Corvina, Rondinella, Molinara"
         },
         {
             nome: "Château Margaux Premier Grand Cru",
             teor: "13% ABV",
             origem: "França - Bordeaux",
-            notas: "Elegante, com taninos sedosos e notas de frutas negras"
+            notas: "Elegante, com taninos sedosos e notas de frutas negras",
+            envelhecimento: "24 meses em barris novos de carvalho francês",
+            temperatura: "16-18°C",
+            harmonizacao: "Cordeiro, pratos trufados",
+            preco: "R$ 5.900,00",
+            uvas: "Cabernet Sauvignon, Merlot, Petit Verdot"
         }
     ],
     tequilas: [
@@ -51,13 +80,24 @@ const menuData = {
             teor: "40% ABV",
             origem: "México - Jalisco",
             notas: "Caramelo, baunilha e notas de chocolate",
-            destaque: true
+            envelhecimento: "Mínimo 2.5 anos em barris de carvalho americano",
+            temperatura: "18-20°C",
+            harmonizacao: "Chocolate amargo, frutas secas",
+            premios: ["Duplo Ouro - San Francisco World Spirits Competition"],
+            destaque: true,
+            preco: "R$ 1.500,00",
+            agave: "100% Agave Azul Weber"
         },
         {
             nome: "Clase Azul Reposado",
             teor: "40% ABV",
             origem: "México - Jalisco",
-            notas: "Agave cozido, baunilha e canela"
+            notas: "Agave cozido, baunilha e canela",
+            envelhecimento: "8 meses em barris de carvalho americano",
+            temperatura: "18-20°C",
+            harmonizacao: "Frutos do mar, pratos picantes",
+            preco: "R$ 1.800,00",
+            agave: "100% Agave Azul Weber"
         }
     ],
     outros: [
@@ -66,18 +106,29 @@ const menuData = {
             teor: "41.4% ABV",
             origem: "Escócia",
             notas: "Pepino, rosas e botânicos tradicionais",
-            destaque: true
+            destilacao: "Pequenos lotes em alambique Carter-Head",
+            temperatura: "8-10°C",
+            harmonizacao: "Pepino fresco, frutas vermelhas",
+            premios: ["Gold Medal - International Wine & Spirit Competition"],
+            destaque: true,
+            preco: "R$ 280,00",
+            botanicos: "11 botânicos incluindo pétalas de rosa e pepino"
         },
         {
             nome: "Zacapa XO",
             teor: "40% ABV",
             origem: "Guatemala",
-            notas: "Chocolate, café e especiarias doces"
+            notas: "Chocolate, café e especiarias doces",
+            envelhecimento: "Sistema Solera com até 25 anos",
+            temperatura: "18-20°C",
+            harmonizacao: "Chocolate amargo, café gourmet",
+            preco: "R$ 890,00",
+            altitude: "Envelhecido a 2.300m acima do nível do mar"
         }
     ]
 };
 
-// Função para criar o card de uma bebida
+// Função para criar o card de uma bebida com detalhes mais ricos
 function createDrinkCard(drink) {
     const card = document.createElement('div');
     card.className = `drink-card ${drink.destaque ? 'destaque' : ''}`;
@@ -89,36 +140,174 @@ function createDrinkCard(drink) {
 
     const content = document.createElement('div');
     content.className = 'drink-content';
-    content.innerHTML = `
-        <h3>${drink.nome}</h3>
-        <p><strong>Teor Alcoólico:</strong> ${drink.teor}</p>
-        <p><strong>Origem:</strong> ${drink.origem}</p>
-        <p><strong>Notas:</strong> ${drink.notas}</p>
-        ${drink.destaque ? '<span class="destaque-badge">✨ Destaque</span>' : ''}
+
+    // Cabeçalho do card com nome e preço
+    const header = `
+        <div class="drink-header">
+            <h3>${drink.nome}</h3>
+            <span class="drink-price">${drink.preco}</span>
+        </div>
     `;
+
+    // Informações principais
+    const mainInfo = `
+        <div class="drink-main-info">
+            <p><strong>Teor Alcoólico:</strong> ${drink.teor}</p>
+            <p><strong>Origem:</strong> ${drink.origem}</p>
+            <p class="drink-notes"><strong>Notas:</strong> ${drink.notas}</p>
+        </div>
+    `;
+
+    // Detalhes específicos da bebida
+    let specificInfo = '';
+    if (drink.envelhecimento) {
+        specificInfo += `
+            <div class="drink-specific-info">
+                <div class="info-icon">🪵</div>
+                <p><strong>Envelhecimento:</strong> ${drink.envelhecimento}</p>
+            </div>
+        `;
+    }
+    if (drink.uvas) {
+        specificInfo += `
+            <div class="drink-specific-info">
+                <div class="info-icon">🍇</div>
+                <p><strong>Uvas:</strong> ${drink.uvas}</p>
+            </div>
+        `;
+    }
+    if (drink.agave) {
+        specificInfo += `
+            <div class="drink-specific-info">
+                <div class="info-icon">🌵</div>
+                <p><strong>Agave:</strong> ${drink.agave}</p>
+            </div>
+        `;
+    }
+    if (drink.botanicos) {
+        specificInfo += `
+            <div class="drink-specific-info">
+                <div class="info-icon">🌿</div>
+                <p><strong>Botânicos:</strong> ${drink.botanicos}</p>
+            </div>
+        `;
+    }
+
+    // Informações de serviço
+    const serviceInfo = `
+        <div class="drink-service-info">
+            <div class="service-item">
+                <div class="info-icon">🌡️</div>
+                <p><strong>Temperatura:</strong> ${drink.temperatura}</p>
+            </div>
+            <div class="service-item">
+                <div class="info-icon">🍽️</div>
+                <p><strong>Harmonização:</strong> ${drink.harmonizacao}</p>
+            </div>
+        </div>
+    `;
+
+    // Prêmios (se houver)
+    let awards = '';
+    if (drink.premios && drink.premios.length > 0) {
+        awards = `
+            <div class="drink-awards">
+                <div class="awards-icon">🏆</div>
+                <div class="awards-list">
+                    ${drink.premios.map(premio => `<p>${premio}</p>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // Badge de destaque
+    const badge = drink.destaque ? '<span class="destaque-badge">✨ Destaque da Casa</span>' : '';
+
+    content.innerHTML = `
+        ${badge}
+        ${header}
+        ${mainInfo}
+        ${specificInfo}
+        ${serviceInfo}
+        ${awards}
+    `;
+
     card.appendChild(content);
 
-    // Adiciona efeito de parallax ao card
+    // Efeito de parallax mais sutil
+    let initialX = 0;
+    let initialY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let xOffset = 0;
+    let yOffset = 0;
+    const smoothing = 0.15; // Fator de suavização
+
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+        // Calcula a posição relativa do mouse (de -1 a 1)
+        xOffset = ((x / rect.width) - 0.5) * 2;
+        yOffset = ((y / rect.height) - 0.5) * 2;
 
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
+        // Aplica o efeito de rotação mais suave
+        const targetX = yOffset * 4; // Reduzido de 20 para 4 graus
+        const targetY = -xOffset * 4; // Reduzido de 20 para 4 graus
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        shine.style.opacity = '1';
+        // Suaviza a transição
+        currentX += (targetX - currentX) * smoothing;
+        currentY += (targetY - currentY) * smoothing;
+
+        // Aplica a transformação com easing
+        card.style.transform = `
+            perspective(1000px) 
+            rotateX(${currentX}deg) 
+            rotateY(${currentY}deg)
+            translateZ(10px)
+            scale(1.02)
+        `;
+
+        // Efeito de brilho mais sutil
+        shine.style.opacity = '0.5';
         shine.style.transform = `translate(${x}px, ${y}px)`;
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        // Suaviza o retorno à posição inicial
+        const resetAnimation = () => {
+            if (Math.abs(currentX) > 0.01 || Math.abs(currentY) > 0.01) {
+                currentX *= 0.85;
+                currentY *= 0.85;
+                
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${currentX}deg) 
+                    rotateY(${currentY}deg)
+                    translateZ(0)
+                    scale(1)
+                `;
+                
+                requestAnimationFrame(resetAnimation);
+            } else {
+                card.style.transform = 'none';
+            }
+        };
+        
+        requestAnimationFrame(resetAnimation);
         shine.style.opacity = '0';
     });
+
+    // Efeito de entrada suave
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+    }, 100);
 
     return card;
 }
@@ -178,23 +367,55 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Adiciona efeito de hover 3D nas categorias
+        // Ajuste do efeito 3D nas categorias
+        let currentX = 0;
+        let currentY = 0;
+        const smoothing = 0.12;
+
         category.addEventListener('mousemove', (e) => {
             const rect = category.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+            const xOffset = ((x / rect.width) - 0.5) * 2;
+            const yOffset = ((y / rect.height) - 0.5) * 2;
 
-            const rotateX = (y - centerY) / 30;
-            const rotateY = (centerX - x) / 30;
+            const targetX = yOffset * 3; // Reduzido para 3 graus
+            const targetY = -xOffset * 3; // Reduzido para 3 graus
 
-            category.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            currentX += (targetX - currentX) * smoothing;
+            currentY += (targetY - currentY) * smoothing;
+
+            category.style.transform = `
+                perspective(1000px) 
+                rotateX(${currentX}deg) 
+                rotateY(${currentY}deg) 
+                translateZ(5px)
+                scale(1.01)
+            `;
         });
 
         category.addEventListener('mouseleave', () => {
-            category.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            const resetAnimation = () => {
+                if (Math.abs(currentX) > 0.01 || Math.abs(currentY) > 0.01) {
+                    currentX *= 0.85;
+                    currentY *= 0.85;
+                    
+                    category.style.transform = `
+                        perspective(1000px) 
+                        rotateX(${currentX}deg) 
+                        rotateY(${currentY}deg)
+                        translateZ(0)
+                        scale(1)
+                    `;
+                    
+                    requestAnimationFrame(resetAnimation);
+                } else {
+                    category.style.transform = 'none';
+                }
+            };
+            
+            requestAnimationFrame(resetAnimation);
         });
     });
 
