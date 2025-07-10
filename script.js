@@ -128,8 +128,56 @@ async function filtrarBebidas(categoria) {
     renderizarBebidas(bebidasFiltradas)
 }
 
+// Função para controlar o menu lateral
+function initMenuLateral() {
+    const menuToggle = document.getElementById('menuToggle')
+    const filterBar = document.querySelector('.filter-bar')
+    const menuOverlay = document.getElementById('menuOverlay')
+    const filterButtons = document.querySelectorAll('.filter-btn')
+
+    function toggleMenu(forceState) {
+        const isActive = forceState !== undefined ? forceState : !filterBar.classList.contains('active')
+        
+        filterBar.classList.toggle('active', isActive)
+        menuOverlay.classList.toggle('active', isActive)
+        document.body.style.overflow = isActive ? 'hidden' : ''
+        
+        // Animar os botões sequencialmente
+        if (isActive) {
+            filterButtons.forEach((btn, index) => {
+                setTimeout(() => {
+                    btn.style.transform = 'translateX(0)'
+                    btn.style.opacity = '1'
+                }, index * 50)
+            })
+        }
+    }
+
+    menuToggle?.addEventListener('click', () => toggleMenu())
+    menuOverlay?.addEventListener('click', () => toggleMenu(false))
+
+    // Fechar menu ao redimensionar para desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            toggleMenu(false)
+        }
+    })
+
+    // Fechar menu ao clicar em um filtro
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                toggleMenu(false)
+            }
+        })
+    })
+}
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', async () => {
+    // Inicializar menu lateral
+    initMenuLateral()
+
     // Carregar todas as bebidas inicialmente
     const bebidas = await getBebidas()
     renderizarBebidas(bebidas)
