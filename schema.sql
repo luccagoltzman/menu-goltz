@@ -8,6 +8,9 @@ drop policy if exists "Qualquer pessoa pode criar avaliações" on avaliacoes;
 drop policy if exists "Qualquer pessoa pode inserir bebidas" on bebidas;
 drop policy if exists "Qualquer pessoa pode deletar bebidas" on bebidas;
 
+-- Remover coluna de imagem
+alter table bebidas drop column if exists imagem_url;
+
 -- Criar tabela de bebidas
 create table if not exists bebidas (
     id uuid default uuid_generate_v4() primary key,

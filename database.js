@@ -5,7 +5,18 @@ export async function getBebidas() {
     const { data, error } = await supabase
         .from('bebidas')
         .select(`
-            *,
+            id,
+            nome,
+            categoria,
+            origem,
+            historia,
+            caracteristicas,
+            curiosidades,
+            envelhecimento,
+            botanicos,
+            como_apreciar,
+            temperatura_servir,
+            created_at,
             avaliacoes (
                 rating
             )
@@ -27,32 +38,72 @@ export async function getBebidas() {
 }
 
 export async function addBebida(bebida) {
-    const { data, error } = await supabase
+    console.log('Tentando adicionar bebida:', bebida)
+    
+    // Garantir que os campos correspondam exatamente aos da tabela
+    const dadosBebida = {
+        nome: bebida.nome,
+        categoria: bebida.categoria,
+        origem: bebida.origem,
+        historia: bebida.historia,
+        caracteristicas: bebida.caracteristicas,
+        curiosidades: bebida.curiosidades || null,
+        envelhecimento: bebida.envelhecimento || null,
+        botanicos: bebida.botanicos || null,
+        como_apreciar: bebida.como_apreciar || null,
+        temperatura_servir: bebida.temperatura_servir || null
+    }
+
+    console.log('Dados formatados para envio:', dadosBebida)
+
+    // Inserir diretamente na tabela
+    const { data: bebidaInserida, error } = await supabase
         .from('bebidas')
-        .insert([bebida])
+        .insert([dadosBebida])
         .select()
 
     if (error) {
-        console.error('Erro ao adicionar bebida:', error)
-        return null
+        console.error('Erro detalhado ao adicionar bebida:', error)
+        throw error
     }
 
-    return data[0]
+    console.log('Bebida adicionada com sucesso:', bebidaInserida)
+    return bebidaInserida[0]
 }
 
 export async function updateBebida(id, bebida) {
-    const { data, error } = await supabase
+    console.log('Tentando atualizar bebida:', id, bebida)
+    
+    // Garantir que os campos correspondam exatamente aos da tabela
+    const dadosBebida = {
+        nome: bebida.nome,
+        categoria: bebida.categoria,
+        origem: bebida.origem,
+        historia: bebida.historia,
+        caracteristicas: bebida.caracteristicas,
+        curiosidades: bebida.curiosidades || null,
+        envelhecimento: bebida.envelhecimento || null,
+        botanicos: bebida.botanicos || null,
+        como_apreciar: bebida.como_apreciar || null,
+        temperatura_servir: bebida.temperatura_servir || null
+    }
+
+    console.log('Dados formatados para atualização:', dadosBebida)
+
+    // Atualizar diretamente na tabela
+    const { data: bebidaAtualizada, error } = await supabase
         .from('bebidas')
-        .update(bebida)
+        .update(dadosBebida)
         .eq('id', id)
         .select()
 
     if (error) {
-        console.error('Erro ao atualizar bebida:', error)
-        return null
+        console.error('Erro detalhado ao atualizar bebida:', error)
+        throw error
     }
 
-    return data[0]
+    console.log('Bebida atualizada com sucesso:', bebidaAtualizada)
+    return bebidaAtualizada[0]
 }
 
 export async function deleteBebida(id) {
