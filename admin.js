@@ -109,11 +109,11 @@ async function renderizarBebidas() {
                     </div>
                 </div>
                 <div class="actions">
-                    <button onclick="window.editarBebida(${bebida.id})" class="tooltip">
+                    <button onclick="editarBebida('${bebida.id}')" class="tooltip">
                         <i class="fa-solid fa-edit"></i> Editar
                         <span class="tooltiptext">Editar bebida</span>
                     </button>
-                    <button onclick="window.excluirBebida(${bebida.id})" style="background: #dc3545;" class="tooltip">
+                    <button onclick="excluirBebida('${bebida.id}')" style="background: #dc3545;" class="tooltip">
                         <i class="fa-solid fa-trash"></i> Excluir
                         <span class="tooltiptext">Excluir bebida</span>
                     </button>
