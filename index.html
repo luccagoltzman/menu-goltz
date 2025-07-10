@@ -95,6 +95,20 @@
                     <span class="close-button">&times;</span>
                 </div>
                 <div class="modal-body">
+                    <div class="rating-container">
+                        <div class="rating-average">
+                            <i class="fas fa-star"></i>
+                            <span class="average-value">0.0</span>
+                            <span class="rating-count">(0 avaliações)</span>
+                        </div>
+                        <div class="rating-stars">
+                            <button class="star-btn" data-rating="1"><i class="far fa-star"></i></button>
+                            <button class="star-btn" data-rating="2"><i class="far fa-star"></i></button>
+                            <button class="star-btn" data-rating="3"><i class="far fa-star"></i></button>
+                            <button class="star-btn" data-rating="4"><i class="far fa-star"></i></button>
+                            <button class="star-btn" data-rating="5"><i class="far fa-star"></i></button>
+                        </div>
+                    </div>
                     <div class="modal-section">
                         <h4><i class="fas fa-history"></i> História</h4>
                         <p class="historia-texto"></p>
@@ -158,9 +172,15 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="utils.js"></script>
-    <script src="colecao.js"></script>
-    <script src="animacoes.js"></script>
-    <script src="script.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script>
+        window.supabaseClient = supabase
+    </script>
+    <script src="utils.js" type="module"></script>
+    <script src="config.js" type="module"></script>
+    <script src="database.js" type="module"></script>
+    <script src="ratings.js" type="module"></script>
+    <script src="animacoes.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html> 

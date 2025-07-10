@@ -1,0 +1,21 @@
+{
+  "name": "menu-goltz",
+  "version": "1.0.0",
+  "description": "Um menu digital interativo e sofisticado para apresentação de bebidas refinadas.",
+  "type": "module",
+  "main": "animacoes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node migrate.js",
+    "dev": "http-server -p 8080 -c-1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
