@@ -134,27 +134,89 @@ function initMenuLateral() {
     const filterBar = document.querySelector('.filter-bar')
     const menuOverlay = document.getElementById('menuOverlay')
     const filterButtons = document.querySelectorAll('.filter-btn')
+    
+    let touchStartX = 0
+    let touchEndX = 0
+    let isMenuOpen = false
+
+    // Adiciona atributos de acessibilidade
+    menuToggle.setAttribute('aria-label', 'Abrir menu de filtros')
+    menuToggle.setAttribute('aria-expanded', 'false')
+    menuToggle.setAttribute('aria-controls', 'filter-menu')
+    
+    filterBar.setAttribute('id', 'filter-menu')
+    filterBar.setAttribute('role', 'navigation')
+    filterBar.setAttribute('aria-label', 'Menu de filtros')
 
     function toggleMenu(forceState) {
-        const isActive = forceState !== undefined ? forceState : !filterBar.classList.contains('active')
+        isMenuOpen = forceState !== undefined ? forceState : !isMenuOpen
         
-        filterBar.classList.toggle('active', isActive)
-        menuOverlay.classList.toggle('active', isActive)
-        document.body.style.overflow = isActive ? 'hidden' : ''
+        filterBar.classList.toggle('active', isMenuOpen)
+        menuOverlay.classList.toggle('active', isMenuOpen)
+        document.body.style.overflow = isMenuOpen ? 'hidden' : ''
         
-        // Animar os botões sequencialmente
-        if (isActive) {
-            filterButtons.forEach((btn, index) => {
-                setTimeout(() => {
-                    btn.style.transform = 'translateX(0)'
-                    btn.style.opacity = '1'
-                }, index * 50)
-            })
+        // Atualiza estados de acessibilidade
+        menuToggle.setAttribute('aria-expanded', isMenuOpen.toString())
+        
+        // Gerencia foco para acessibilidade
+        if (isMenuOpen) {
+            filterButtons[0]?.focus()
+        } else {
+            menuToggle?.focus()
         }
     }
 
+    // Gerenciamento de gestos touch
+    function handleTouchStart(e) {
+        touchStartX = e.touches[0].clientX
+    }
+
+    function handleTouchMove(e) {
+        if (!touchStartX) return
+        
+        touchEndX = e.touches[0].clientX
+        const diffX = touchEndX - touchStartX
+        
+        // Previne scroll vertical enquanto arrasta horizontalmente
+        if (Math.abs(diffX) > 10) {
+            e.preventDefault()
+        }
+    }
+
+    function handleTouchEnd() {
+        if (!touchStartX || !touchEndX) return
+        
+        const diffX = touchEndX - touchStartX
+        const threshold = window.innerWidth * 0.15 // 15% da largura da tela
+        
+        if (diffX > threshold && !isMenuOpen) {
+            // Swipe direita -> abre menu
+            toggleMenu(true)
+        } else if (diffX < -threshold && isMenuOpen) {
+            // Swipe esquerda -> fecha menu
+            toggleMenu(false)
+        }
+        
+        // Reset valores
+        touchStartX = 0
+        touchEndX = 0
+    }
+
+    // Event Listeners
     menuToggle?.addEventListener('click', () => toggleMenu())
     menuOverlay?.addEventListener('click', () => toggleMenu(false))
+    
+    // Touch events
+    document.addEventListener('touchstart', handleTouchStart, { passive: true })
+    document.addEventListener('touchmove', handleTouchMove, { passive: false })
+    document.addEventListener('touchend', handleTouchEnd)
+
+    // Keyboard navigation
+    filterBar?.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen) {
+            toggleMenu(false)
+        }
+    })
 
     // Fechar menu ao redimensionar para desktop
     window.addEventListener('resize', () => {
@@ -187,8 +249,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const categoria = button.dataset.category
-            filterButtons.forEach(btn => btn.classList.remove('active'))
+            
+            // Atualizar estados dos botões
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active')
+                btn.setAttribute('aria-pressed', 'false')
+            })
             button.classList.add('active')
+            button.setAttribute('aria-pressed', 'true')
+            
             filtrarBebidas(categoria)
         })
     })

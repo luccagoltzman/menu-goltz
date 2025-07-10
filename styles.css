@@ -30,6 +30,9 @@
     /* Padrões */
     --pattern-size: 20px;
     --pattern-color: rgba(139, 69, 19, 0.1);
+    --menu-transform: translateX(-100%);
+    --menu-width: 280px;
+    --menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animações */
@@ -59,6 +62,19 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Classe para acessibilidade - visível apenas para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 body {
@@ -753,8 +769,7 @@ body {
     }
 
     .filter-content {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
         gap: 0.5rem;
     }
 
@@ -915,80 +930,138 @@ body {
 
 /* Menu Mobile */
 .menu-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
     display: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    transition: transform 0.3s var(--menu-timing);
 }
 
+.menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Menu Overlay */
 .menu-overlay {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s var(--menu-timing), visibility 0.3s;
+    z-index: 998;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Filter Bar (Menu Off-canvas) */
+.filter-bar {
+    background: var(--menu-bg);
+    border-right: 1px solid var(--menu-border);
+    padding: 1rem;
+    position: relative;
+    z-index: 999;
 }
 
 @media (max-width: 768px) {
-    /* Esconde os filtros desktop */
-    .filter-bar {
-        display: none;
-    }
-
-    /* Mostra o menu mobile */
     .menu-toggle {
-        display: flex;
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: var(--primary-color);
-        border: none;
-        cursor: pointer;
-        color: white;
-        box-shadow: 0 2px 10px var(--shadow-color);
-        transition: var(--transition-speed);
-        z-index: 1001;
-        align-items: center;
-        justify-content: center;
+        display: block;
     }
 
-    .menu-overlay {
-        display: block;
+    .filter-bar {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
         height: 100vh;
-        background: var(--menu-bg);
-        transform: translateY(-100%);
-        transition: var(--menu-transition);
-        z-index: 1000;
-    }
-
-    .menu-overlay.active {
-        transform: translateY(0);
-    }
-
-    /* Estilo dos filtros dentro do menu mobile */
-    .menu-overlay .filter-bar {
-        display: block;
-        width: 100%;
-        height: 100%;
-        background: var(--menu-bg);
-        backdrop-filter: var(--menu-blur);
-        padding: 0;
-        margin: 0;
-        position: relative;
-    }
-
-    .menu-overlay .filter-content {
-        flex-direction: column;
-        padding: 1rem;
-        height: calc(100% - 60px);
+        width: var(--menu-width);
+        transform: var(--menu-transform);
+        transition: transform 0.3s var(--menu-timing);
         overflow-y: auto;
-        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        padding-top: 4rem;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
     }
 
-    .menu-overlay .filter-btn {
+    .filter-bar.active {
+        transform: translateX(0);
+    }
+
+    .filter-content {
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .filter-bar.active .filter-content {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .filter-btn {
         width: 100%;
-        justify-content: flex-start;
         padding: 1rem;
+        justify-content: flex-start;
         border-radius: 8px;
+        gap: 1rem;
+        font-size: 1rem;
+    }
+
+    .filter-btn i {
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
+    }
+
+    /* Animação dos botões */
+    .filter-btn {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+    }
+
+    .filter-bar.active .filter-btn {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Delay sequencial para cada botão */
+    .filter-bar.active .filter-btn:nth-child(1) { transition-delay: 0.1s; }
+    .filter-bar.active .filter-btn:nth-child(2) { transition-delay: 0.15s; }
+    .filter-bar.active .filter-btn:nth-child(3) { transition-delay: 0.2s; }
+    .filter-bar.active .filter-btn:nth-child(4) { transition-delay: 0.25s; }
+    .filter-bar.active .filter-btn:nth-child(5) { transition-delay: 0.3s; }
+    .filter-bar.active .filter-btn:nth-child(6) { transition-delay: 0.35s; }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 360px) {
+    :root {
+        --menu-width: 260px;
+    }
+
+    .filter-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .filter-btn i {
+        font-size: 1rem;
     }
 } 

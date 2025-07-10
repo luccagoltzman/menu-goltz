@@ -18,13 +18,14 @@
 </head>
 <body>
     <!-- Overlay do Menu -->
-    <div id="menuOverlay" class="menu-overlay"></div>
+    <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
 
     <!-- Header Luxuoso -->
     <header class="main-header">
         <div class="header-content">
-            <button id="menuToggle" class="menu-toggle">
-                <i class="fas fa-bars"></i>
+            <button id="menuToggle" class="menu-toggle" aria-label="Abrir menu de filtros">
+                <span class="sr-only">Menu</span>
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             <div class="header-decoration left">
                 <i class="fas fa-wine-glass-alt"></i>
@@ -44,30 +45,30 @@
     </header>
 
     <!-- Barra de Filtros -->
-    <nav class="filter-bar">
+    <nav class="filter-bar" id="filter-menu" role="navigation" aria-label="Menu de filtros">
         <div class="filter-content">
-            <button class="filter-btn active" data-category="todos">
-                <i class="fas fa-glass-cheers"></i>
+            <button class="filter-btn active" data-category="todos" aria-pressed="true">
+                <i class="fas fa-glass-cheers" aria-hidden="true"></i>
                 <span>Todos</span>
             </button>
-            <button class="filter-btn" data-category="Whisky">
-                <i class="fas fa-whiskey-glass"></i>
+            <button class="filter-btn" data-category="Whisky" aria-pressed="false">
+                <i class="fas fa-whiskey-glass" aria-hidden="true"></i>
                 <span>Whiskys</span>
             </button>
-            <button class="filter-btn" data-category="Cachaça">
-                <i class="fas fa-wine-bottle"></i>
+            <button class="filter-btn" data-category="Cachaça" aria-pressed="false">
+                <i class="fas fa-wine-bottle" aria-hidden="true"></i>
                 <span>Cachaças</span>
             </button>
-            <button class="filter-btn" data-category="Tequila">
-                <i class="fas fa-bottle-droplet"></i>
+            <button class="filter-btn" data-category="Tequila" aria-pressed="false">
+                <i class="fas fa-bottle-droplet" aria-hidden="true"></i>
                 <span>Tequilas</span>
             </button>
-            <button class="filter-btn" data-category="Vinho">
-                <i class="fas fa-wine-glass-alt"></i>
+            <button class="filter-btn" data-category="Vinho" aria-pressed="false">
+                <i class="fas fa-wine-glass-alt" aria-hidden="true"></i>
                 <span>Vinhos</span>
             </button>
-            <button class="filter-btn" data-category="Licores">
-                <i class="fas fa-glass-martini"></i>
+            <button class="filter-btn" data-category="Licores" aria-pressed="false">
+                <i class="fas fa-glass-martini" aria-hidden="true"></i>
                 <span>Licores</span>
             </button>
         </div>
