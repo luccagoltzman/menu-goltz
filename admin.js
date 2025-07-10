@@ -47,21 +47,75 @@ function preencherFormulario(bebida) {
     form.elements.temperatura_servir.value = bebida.temperatura_servir
 }
 
+// Função para obter o ícone da categoria
+function getCategoryIcon(categoria) {
+    const icons = {
+        'Whisky': '<i class="fa-solid fa-whiskey-glass"></i>',
+        'Cachaça': '<i class="fa-solid fa-wine-bottle"></i>',
+        'Tequila': '<i class="fa-solid fa-bottle-droplet"></i>',
+        'Vinho': '<i class="fa-solid fa-wine-glass-alt"></i>',
+        'Licores': '<i class="fa-solid fa-glass-martini"></i>'
+    }
+    return icons[categoria] || '<i class="fa-solid fa-glass-cheers"></i>'
+}
+
+// Função para formatar texto
+function formatText(textArea, format) {
+    const start = textArea.selectionStart;
+    const end = textArea.selectionEnd;
+    const selectedText = textArea.value.substring(start, end);
+    let formattedText = '';
+
+    switch (format) {
+        case 'bold':
+            formattedText = `**${selectedText}**`;
+            break;
+        case 'italic':
+            formattedText = `_${selectedText}_`;
+            break;
+        case 'bullet':
+            formattedText = selectedText.split('\n').map(line => `• ${line}`).join('\n');
+            break;
+        case 'heading':
+            formattedText = `## ${selectedText}`;
+            break;
+    }
+
+    textArea.value = textArea.value.substring(0, start) + formattedText + textArea.value.substring(end);
+    textArea.focus();
+    textArea.setSelectionRange(start, start + formattedText.length);
+}
+
 // Função para renderizar a lista de bebidas
 async function renderizarBebidas() {
     try {
         const bebidas = await getBebidas()
         bebidasContainer.innerHTML = bebidas.map(bebida => `
             <div class="bebida-item-admin">
-                <div>
-                    <strong>${bebida.nome}</strong> - ${bebida.categoria}
+                <div class="bebida-info">
+                    <span class="bebida-icon">${getCategoryIcon(bebida.categoria)}</span>
+                    <div>
+                        <strong>${bebida.nome}</strong>
+                        <div style="color: #6c757d; font-size: 0.9rem;">
+                            <i class="fa-solid fa-globe-americas"></i> ${bebida.origem}
+                            ${bebida.rating_medio ? `
+                                <span style="margin-left: 1rem;">
+                                    <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                                    ${bebida.rating_medio.toFixed(1)}
+                                    <small>(${bebida.total_avaliacoes})</small>
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
                 </div>
                 <div class="actions">
-                    <button onclick="window.editarBebida(${bebida.id})">
-                        <i class="fas fa-edit"></i> Editar
+                    <button onclick="window.editarBebida(${bebida.id})" class="tooltip">
+                        <i class="fa-solid fa-edit"></i> Editar
+                        <span class="tooltiptext">Editar bebida</span>
                     </button>
-                    <button onclick="window.excluirBebida(${bebida.id})" style="background: #dc3545;">
-                        <i class="fas fa-trash"></i> Excluir
+                    <button onclick="window.excluirBebida(${bebida.id})" style="background: #dc3545;" class="tooltip">
+                        <i class="fa-solid fa-trash"></i> Excluir
+                        <span class="tooltiptext">Excluir bebida</span>
                     </button>
                 </div>
             </div>
@@ -78,6 +132,8 @@ window.editarBebida = async (id) => {
         const bebida = bebidas.find(b => b.id === id)
         if (bebida) {
             preencherFormulario(bebida)
+            // Scroll suave até o formulário
+            form.scrollIntoView({ behavior: 'smooth' })
         }
     } catch (error) {
         showError('Erro ao carregar bebida: ' + error.message)
@@ -117,12 +173,88 @@ form.addEventListener('submit', async (e) => {
         
         limparFormulario()
         await renderizarBebidas()
+        // Scroll suave até a lista de bebidas
+        bebidasContainer.scrollIntoView({ behavior: 'smooth' })
     } catch (error) {
         showError('Erro ao salvar bebida: ' + error.message)
     }
 })
 
 limparFormBtn.addEventListener('click', limparFormulario)
+
+// Adicionar eventos de formatação de texto
+document.querySelectorAll('.format-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const format = btn.dataset.format;
+        const textArea = btn.closest('.form-group').querySelector('textarea');
+        formatText(textArea, format);
+        
+        // Adicionar classe active temporariamente
+        btn.classList.add('active');
+        setTimeout(() => btn.classList.remove('active'), 200);
+    });
+});
+
+// Adicionar feedback visual aos botões de ação
+document.querySelectorAll('button[type="submit"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!btn.classList.contains('loading')) {
+            btn.classList.add('loading');
+            setTimeout(() => btn.classList.remove('loading'), 1000);
+        }
+    });
+});
+
+// Melhorar as mensagens de feedback
+function showMessage(type, message) {
+    const messageElement = document.getElementById(`${type}Message`);
+    const span = messageElement.querySelector('span');
+    span.textContent = message;
+    messageElement.style.display = 'flex';
+    messageElement.style.opacity = '0';
+    
+    // Animar entrada
+    requestAnimationFrame(() => {
+        messageElement.style.opacity = '1';
+    });
+
+    // Esconder após 5 segundos
+    setTimeout(() => {
+        messageElement.style.opacity = '0';
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 300);
+    }, 5000);
+}
+
+// Adicionar animação de entrada aos elementos
+document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.fade-in');
+    elements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'all 0.5s ease';
+        
+        requestAnimationFrame(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        });
+    });
+});
+
+// Adicionar validação em tempo real
+document.querySelectorAll('input, textarea, select').forEach(input => {
+    input.addEventListener('input', () => {
+        if (input.checkValidity()) {
+            input.classList.add('valid');
+            input.classList.remove('invalid');
+        } else {
+            input.classList.add('invalid');
+            input.classList.remove('valid');
+        }
+    });
+});
 
 // Carregar bebidas ao iniciar
 document.addEventListener('DOMContentLoaded', renderizarBebidas) 
