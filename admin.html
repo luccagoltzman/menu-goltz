@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Coleção Neves & Goltzman</title>
+    <meta name="description" content="Painel administrativo para gerenciar a coleção de bebidas">
+    <meta name="theme-color" content="#1A1A1A">
+    
+    <!-- Fontes e Estilos -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: #4a3429;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5d4235;
+        }
+
+        .bebidas-lista {
+            margin-top: 3rem;
+        }
+
+        .bebida-item-admin {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bebida-item-admin .actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Painel Administrativo</h1>
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <form id="bebidaForm">
+            <input type="hidden" id="bebidaId" name="id">
+            
+            <div class="form-group">
+                <label for="nome">Nome da Bebida</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoria</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="Whisky">Whisky</option>
+                    <option value="Cachaça">Cachaça</option>
+                    <option value="Tequila">Tequila</option>
+                    <option value="Vinho">Vinho</option>
+                    <option value="Licores">Licores</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="origem">Origem</label>
+                <input type="text" id="origem" name="origem" required>
+            </div>
+
+            <div class="form-group">
+                <label for="historia">História</label>
+                <textarea id="historia" name="historia" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="caracteristicas">Características</label>
+                <textarea id="caracteristicas" name="caracteristicas" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="curiosidades">Curiosidades</label>
+                <textarea id="curiosidades" name="curiosidades" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="envelhecimento">Envelhecimento</label>
+                <textarea id="envelhecimento" name="envelhecimento"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="botanicos">Botânicos</label>
+                <textarea id="botanicos" name="botanicos"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="como_apreciar">Como Apreciar</label>
+                <textarea id="como_apreciar" name="como_apreciar" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="temperatura_servir">Temperatura de Serviço</label>
+                <input type="text" id="temperatura_servir" name="temperatura_servir" required>
+            </div>
+
+            <button type="submit">Salvar Bebida</button>
+            <button type="button" id="limparForm" style="background: #6c757d;">Limpar Formulário</button>
+        </form>
+
+        <div class="bebidas-lista">
+            <h2>Bebidas Cadastradas</h2>
+            <div id="bebidasContainer"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script>
+        window.supabaseClient = supabase
+    </script>
+    <script src="admin.js" type="module"></script>
+</body>
+</html> 
