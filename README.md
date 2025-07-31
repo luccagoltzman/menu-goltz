@@ -1,83 +1,167 @@
-# Menu Digital - Bar Elegante 🥃
+# 🍸 Menu Digital - Goltz Bar & Drinks
 
-Um menu digital interativo e sofisticado para apresentação de bebidas refinadas.
+<div align="center">
 
-## Sobre o Projeto
+![Goltz Bar & Drinks](https://img.shields.io/badge/Goltz-Bar%20%26%20Drinks-8B4513?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Em%20Produção-success?style=for-the-badge)
+![Versão](https://img.shields.io/badge/Versão-2.0-blue?style=for-the-badge)
+![Licença](https://img.shields.io/badge/Licença-Proprietária-red?style=for-the-badge)
 
-Este menu digital foi desenvolvido para proporcionar uma experiência elegante e intuitiva na apresentação de bebidas refinadas como cachaças, whiskies, tequilas, vinhos e outros destilados premium.
+</div>
 
-### Características Principais
+<p align="center">Menu digital sofisticado e interativo para apresentação de bebidas premium, desenvolvido especialmente para o Goltz Bar & Drinks.</p>
 
-- Design sofisticado e minimalista
-- Interface responsiva para desktop e mobile
+## 📑 Índice
+
+- [Sobre o Projeto](#-sobre-o-projeto)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias](#-tecnologias)
+- [Layout](#-layout)
+- [Estrutura do Menu](#-estrutura-do-menu)
+- [Instalação](#-instalação)
+- [Uso](#-uso)
+- [Personalização](#-personalização)
+- [Responsividade](#-responsividade)
+- [Contribuição](#-contribuição)
+- [Licença](#-licença)
+
+## 🎯 Sobre o Projeto
+
+O Menu Digital do Goltz Bar & Drinks foi desenvolvido para proporcionar uma experiência premium na apresentação de bebidas refinadas. Com um design moderno e sofisticado, o menu oferece uma interface intuitiva e elegante para explorar nossa seleção exclusiva de bebidas.
+
+### ✨ Destaques
+
+- Design premium e minimalista
+- Experiência de usuário intuitiva
 - Animações suaves e elegantes
-- Categorização intuitiva das bebidas
-- Detalhes completos sobre cada bebida
+- Sistema de avaliação integrado
+- Filtros inteligentes por categoria
+- Modo de busca avançado
 
-## Tecnologias Utilizadas
+## 🚀 Funcionalidades
 
-- HTML5
-- CSS3 (com variáveis CSS e animações)
-- JavaScript Vanilla (ES6+)
-- Fontes: Cinzel e Inter (Google Fonts)
+- **Categorização Inteligente**: Organização intuitiva das bebidas por tipo e origem
+- **Busca Avançada**: Encontre bebidas por nome, origem ou características
+- **Sistema de Rating**: Avaliações e feedback dos clientes em tempo real
+- **Detalhes Completos**: Informações detalhadas sobre cada bebida
+- **Animações Suaves**: Transições e interações elegantes
+- **Modo Mobile**: Interface otimizada para dispositivos móveis
 
-## Estrutura do Menu
+## 💻 Tecnologias
 
-O menu está organizado nas seguintes categorias:
+<div align="center">
 
-- Cachaças
-- Whiskies
-- Vinhos
-- Tequilas
-- Outros (Gins, Rum, Licores)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
-Cada item do menu apresenta:
+</div>
+
+### 🎨 Design
+
+- **Fontes**: Cinzel (títulos) e Inter (texto)
+- **Ícones**: Font Awesome Pro
+- **Animações**: CSS Animations e Transitions
+- **Layout**: CSS Grid e Flexbox
+
+## 📱 Layout
+
+O menu apresenta um design responsivo e adaptativo:
+
+- **Desktop**: Layout em grid com 3 colunas
+- **Tablet**: Layout em grid com 2 colunas
+- **Mobile**: Layout em coluna única
+
+### 🎨 Paleta de Cores Premium
+
+\`\`\`css
+:root {
+    --primary-color: #8B4513;    /* Marrom Whisky */
+    --secondary-color: #C17817;  /* Âmbar Dourado */
+    --accent-color: #722F37;     /* Vermelho Vinho */
+    --background-color: #FAF6F1; /* Creme Suave */
+    --text-color: #2C1810;       /* Marrom Escuro */
+}
+\`\`\`
+
+## 📋 Estrutura do Menu
+
+### Categorias Principais
+
+- 🥃 Whiskies
+- 🍷 Vinhos
+- 🍸 Destilados Premium
+- 🍹 Coquetéis Especiais
+- 🍺 Cervejas Artesanais
+
+### Informações por Item
+
 - Nome da bebida
 - Teor alcoólico
 - País/região de origem
 - Notas de sabor
+- Avaliações dos clientes
+- Tags especiais
 
-## Como Usar
+## 🔧 Instalação
 
-1. Abra o arquivo `index.html` em um navegador moderno
-2. Clique em uma categoria para expandir/recolher
-3. Explore os detalhes de cada bebida nos cards
+1. Clone o repositório
+\`\`\`bash
+git clone [https://github.com/luccagoltzman/menu-goltz.git]
+\`\`\`
 
-## Personalização
+2. Instale as dependências
+\`\`\`bash
+npm install
+\`\`\`
 
-Para adicionar ou modificar bebidas, edite o objeto `menuData` no arquivo `script.js`:
+3. Configure as variáveis de ambiente
+\`\`\`bash
+cp .env.example .env
+\`\`\`
 
-```javascript
-const menuData = {
-    categoria: [
-        {
-            nome: "Nome da Bebida",
-            teor: "Teor Alcoólico",
-            origem: "País/Região",
-            notas: "Descrição das notas de sabor"
-        }
-    ]
-};
-```
+## 💡 Uso
 
-## Paleta de Cores
+### Administração do Menu
 
-- Fundo principal: `#0D0D0D`
-- Dourado elegante: `#CBA135`
-- Bordô: `#581845`
-- Cinza escuro: `#2C2C2C`
-- Texto principal: `#F5F5F5`
+Para adicionar ou modificar bebidas, utilize o painel administrativo em \`admin.html\`:
 
-## Responsividade
+\`\`\`javascript
+// Exemplo de estrutura de dados
+{
+    "nome": "Whisky Premium",
+    "teor": "43%",
+    "origem": "Escócia",
+    "notas": ["Caramelo", "Carvalho", "Baunilha"],
+    "preco": "R$ 45,00",
+    "tags": ["Premium", "Single Malt"]
+}
+\`\`\`
 
-O menu é totalmente responsivo e se adapta a diferentes tamanhos de tela:
-- Desktop: Layout em grid com múltiplas colunas
-- Mobile: Layout em coluna única com cards empilhados
+## 📱 Responsividade
 
-## Licença
+O menu é totalmente responsivo e otimizado para:
 
-Este projeto é para uso exclusivo do Bar Elegante.
+- 📺 Desktop (1200px+)
+- 💻 Laptop (1024px)
+- 📱 Tablet (768px)
+- 📱 Mobile (320px+)
+
+## 🤝 Contribuição
+
+Este é um projeto proprietário do Goltz Bar & Drinks. Contribuições são aceitas apenas mediante autorização prévia.
+
+## 📄 Licença
+
+Copyright © 2024 Goltz Bar & Drinks. Todos os direitos reservados.
 
 ---
 
-Desenvolvido com 🥃 para proporcionar a melhor experiência em apresentação de bebidas refinadas.
+<div align="center">
+
+Desenvolvido com 🥃 por [Sua Empresa/Nome] para o Goltz Bar & Drinks
+
+[Website](https://luccagoltzman.github.io/portifolio/) · [Instagram](https://www.instagram.com/lucca_goltzman/) · [Contato](mailto:contato@goltzbar.com)
+
+</div>
