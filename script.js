@@ -253,10 +253,76 @@ function initMenuLateral() {
     })
 }
 
+// Função para inicializar a busca
+function initSearch() {
+    const searchButton = document.querySelector('.search-button')
+    const searchContainer = document.getElementById('searchContainer')
+    const searchInput = document.getElementById('searchInput')
+    const searchClose = document.querySelector('.search-close')
+    let allBebidas = []
+
+    // Função para abrir a busca
+    function openSearch() {
+        searchContainer.classList.add('active')
+        searchInput.focus()
+        document.body.style.overflow = 'hidden'
+    }
+
+    // Função para fechar a busca
+    function closeSearch() {
+        searchContainer.classList.remove('active')
+        searchInput.value = ''
+        document.body.style.overflow = ''
+        renderizarBebidas(allBebidas)
+    }
+
+    // Função para realizar a busca
+    function performSearch(query) {
+        query = query.toLowerCase().trim()
+        if (!query) {
+            renderizarBebidas(allBebidas)
+            return
+        }
+
+        const bebidasFiltradas = allBebidas.filter(bebida => {
+            return bebida.nome.toLowerCase().includes(query) ||
+                   bebida.categoria.toLowerCase().includes(query) ||
+                   bebida.origem.toLowerCase().includes(query) ||
+                   (bebida.caracteristicas && bebida.caracteristicas.toLowerCase().includes(query))
+        })
+
+        renderizarBebidas(bebidasFiltradas)
+    }
+
+    // Event Listeners
+    searchButton.addEventListener('click', openSearch)
+    searchClose.addEventListener('click', closeSearch)
+    
+    // Fechar com Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchContainer.classList.contains('active')) {
+            closeSearch()
+        }
+    })
+
+    // Busca em tempo real
+    searchInput.addEventListener('input', (e) => {
+        performSearch(e.target.value)
+    })
+
+    // Armazenar todas as bebidas para busca
+    getBebidas().then(bebidas => {
+        allBebidas = bebidas
+    })
+}
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', async () => {
     // Inicializar menu lateral
     initMenuLateral()
+    
+    // Inicializar busca
+    initSearch()
 
     // Carregar todas as bebidas inicialmente
     const bebidas = await getBebidas()

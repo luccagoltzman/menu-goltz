@@ -23,17 +23,27 @@
     <!-- Header Moderno -->
     <header class="main-header">
         <div class="header-content">
-            <button id="menuToggle" class="menu-toggle" aria-label="Abrir menu de filtros">
-                <span class="sr-only">Menu</span>
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
-            <div class="header-text">
-                <h1>A Arte de Beber Bem</h1>
-                <p class="subtitle">Coleção Neves & Goltzman</p>
+            <div class="header-left">
+                <button id="menuToggle" class="menu-toggle" aria-label="Abrir menu de filtros">
+                    <span class="sr-only">Menu</span>
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <div class="header-text">
+                    <h1>A Arte de Beber Bem</h1>
+                    <p class="subtitle">Coleção Neves & Goltzman</p>
+                </div>
             </div>
-            <div class="header-decoration right">
-                <i class="fas fa-search" aria-label="Buscar"></i>
-                <i class="fas fa-user" aria-label="Perfil"></i>
+            <button class="search-button" aria-label="Buscar bebidas">
+                <i class="fas fa-search"></i>
+            </button>
+            <!-- Campo de busca -->
+            <div class="search-container" id="searchContainer">
+                <div class="search-input-wrapper">
+                    <input type="text" id="searchInput" placeholder="Buscar bebidas..." aria-label="Campo de busca">
+                    <button class="search-close" aria-label="Fechar busca">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
