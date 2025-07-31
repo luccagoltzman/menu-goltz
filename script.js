@@ -86,6 +86,24 @@ function abrirModal(bebida) {
     })
     
     document.body.appendChild(modal)
+    // Força um reflow para garantir que a animação funcione
+    modal.offsetHeight
+    // Adiciona a classe active para iniciar a animação
+    modal.classList.add('active')
+
+    // Adiciona evento de clique no overlay para fechar o modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active')
+            setTimeout(() => modal.remove(), 300) // Remove após a animação
+        }
+    })
+
+    // Atualiza o evento de fechar para incluir animação
+    modal.querySelector('.close-button').addEventListener('click', () => {
+        modal.classList.remove('active')
+        setTimeout(() => modal.remove(), 300) // Remove após a animação
+    })
 }
 
 // Função para renderizar as bebidas
