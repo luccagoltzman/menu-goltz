@@ -261,7 +261,7 @@ body {
     gap: 1rem;
     padding: 0.5rem;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 /* Footer Elegante */
@@ -417,10 +417,9 @@ body {
     align-items: center;
     gap: 1rem;
     position: relative;
-    box-shadow: 0 2px 8px var(--card-shadow);
-    width: 31%; /* Aproximadamente 3 cards por linha com gap */
-    min-width: 300px;
-    margin: 0;
+          box-shadow: 0 2px 8px var(--card-shadow);
+      width: 300px; /* Largura fixa para todos os cards */
+      margin: 0;
     flex-grow: 0;
     flex-shrink: 0;
     border-left: 3px solid transparent;
@@ -881,11 +880,9 @@ body {
 
 @media (max-width: 768px) {
     /* Cards Responsivos */
-    .bebida-item {
-        width: 100%; /* 1 card por linha */
-        min-width: unset;
-        max-width: 500px; /* Limitar largura máxima em telas menores */
-    }
+          .bebida-item {
+          width: 300px; /* Mantendo largura consistente em todas as telas */
+      }
 
     /* Header Responsivo */
     .main-header {
